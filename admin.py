@@ -9,12 +9,14 @@ def create_admin():
     with app.app_context():
         username = "admin"
         password = "1234"  # Troque por uma senha segura
+        level = 1
 
         user = User.query.filter_by(username=username).first()
         # Verifica se o usuário já existe
         if user:
             hashed_password = generate_password_hash(password)
             user.password = hashed_password
+            user.level = level
             db.session.merge(user)
             db.session.commit()
             print(f"Usuário '{username}' já existe, senha modificada.")

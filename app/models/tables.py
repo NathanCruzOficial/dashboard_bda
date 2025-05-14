@@ -10,10 +10,12 @@ class User(UserMixin,db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
+    level = db.Column(db.Integer, nullable=False)
 
-    def __init__(self,username="guest", password=""): #Construtor
+    def __init__(self,username, password="1234", level=0): #Construtor
         self.usename = username
         self.password = generate_password_hash(password)
+        self.level = level
 
     def get_id(self):
             return str(self.id)  # Retorne o ID como string, necessário para o Flask-Login

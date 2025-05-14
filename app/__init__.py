@@ -1,6 +1,5 @@
 from flask import Flask
-from flask_login import LoginManager
-from app.database import db, migrate
+from app.database import db, migrate , login_manager
 from app.models.tables import User
 import os
 from config import SQLiteConfig, MySQLConfig
@@ -18,11 +17,10 @@ def create_app():
         app.config.from_object(SQLiteConfig)
      # =====================================================================================================
 
+    login_manager.login_view = 'auth.login'
+
     db.init_app(app)
     migrate.init_app(app, db)  # ← aqui inicializa o migrate
-
-    login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
     @login_manager.user_loader
