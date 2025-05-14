@@ -8,20 +8,25 @@ def create_admin():
 
     with app.app_context():
         username = "admin"
-        password = "admin123"  # Troque por uma senha segura
+        password = "1234"  # Troque por uma senha segura
 
+        user = User.query.filter_by(username=username).first()
         # Verifica se o usuário já existe
-        if User.query.filter_by(username=username).first():
-            print(f"Usuário '{username}' já existe.")
+        if user:
+            hashed_password = generate_password_hash(password)
+            user.password = hashed_password
+            db.session.merge(user)
+            db.session.commit()
+            print(f"Usuário '{username}' já existe, senha modificada.")
             return
+        else:
+            # Cria o usuário
+            hashed_password = generate_password_hash(password)
+            admin_user = User(username=username, password=hashed_password)
 
-        # Cria o usuário
-        hashed_password = generate_password_hash(password)
-        admin_user = User(username=username, password=hashed_password)
-
-        db.session.add(admin_user)
-        db.session.commit()
-        print(f"Usuário admin '{username}' criado com sucesso!")
+            db.session.add(admin_user)
+            db.session.commit()
+            print(f"Usuário admin '{username}' criado com sucesso!")
 
 if __name__ == "__main__":
     create_admin()

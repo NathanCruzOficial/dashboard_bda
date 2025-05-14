@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user
-from werkzeug.security import check_password_hash
-from app.models import User
+from app.models import User, LoginForm
 from .middlewares import redirect_if_authenticated
 
 auth_bp = Blueprint('auth', __name__)
@@ -9,18 +8,23 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/login', methods=['GET', 'POST'])
 @redirect_if_authenticated
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    form = LoginForm()
 
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
+        # Verifique se o usuário existe e se a senha está correta
         user = User.query.filter_by(username=username).first()
-        if user and check_password_hash(user.password, password):
-            login_user(user)
-            return redirect(url_for('home.home'))
+        print(user)
+        if user and user.check_password(password):
+            login_user(user)  # Faz o login do usuário
+            flash('Login bem-sucedido!', 'success')
+            return redirect(url_for('home.home'))  # Redireciona para a página inicial
         else:
-            flash('Usuário ou senha inválidos.')
+            flash('Credenciais inválidas, tente novamente.', 'danger')
 
-    return render_template('auth/login.html')
+    return render_template('auth/login.html', form=form)
 
 @auth_bp.route('/logout')
 def logout():

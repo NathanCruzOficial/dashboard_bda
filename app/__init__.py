@@ -8,12 +8,15 @@ from config import SQLiteConfig, MySQLConfig
 def create_app():
     app = Flask(__name__)
 
+    # =====================================================================================================
+    # ======= Configurações do Banco de Dados - (Padrão: sqlite)
     env = os.getenv('APP_ENV', 'sqlite')  # padrão: SQLite
 
     if env == 'mysql':
         app.config.from_object(MySQLConfig)
     else:
         app.config.from_object(SQLiteConfig)
+     # =====================================================================================================
 
     db.init_app(app)
     migrate.init_app(app, db)  # ← aqui inicializa o migrate

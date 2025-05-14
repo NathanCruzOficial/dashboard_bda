@@ -4,8 +4,11 @@
 <body>
   <h2>Login</h2>
   <form method="POST">
-    <input type="text" name="username" placeholder="Usuário" required><br>
-    <input type="password" name="password" placeholder="Senha" required><br>
+  {{ form.csrf_token }}
+
+    {{ form.username(_name="username", id="username", placeholder="username") }}<br>
+    {{ form.password(_name="password", id="password", placeholder="password") }}<br>
+
     <button type="submit">Entrar</button>
   </form>
 </body>

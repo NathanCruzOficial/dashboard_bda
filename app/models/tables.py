@@ -11,19 +11,19 @@ class User(UserMixin,db.Model):
     username = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
 
-def __init__(self,username="guest", password=""): #Construtor
-    self.usename = username
-    self.password = generate_password_hash(password)
+    def __init__(self,username="guest", password=""): #Construtor
+        self.usename = username
+        self.password = generate_password_hash(password)
 
-def get_id(self):
-        return str(self.id)  # Retorne o ID como string, necessário para o Flask-Login
-    
-def __repr__(self):
-    return f"<User {self.username},id: {self.id}>"
+    def get_id(self):
+            return str(self.id)  # Retorne o ID como string, necessário para o Flask-Login
+        
+    def __repr__(self):
+        return f"<User {self.username},id: {self.id}>"
 
-def check_password(self, password="0"):
-    return check_password_hash(self.password, password)  # Método para verificar a senha
+    def check_password(self, password="0"):
+        return check_password_hash(self.password, password)  # Método para verificar a senha
 
-def set_password(self, password):
-    self.password = generate_password_hash(password)
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
 # ==================================================================================================================
