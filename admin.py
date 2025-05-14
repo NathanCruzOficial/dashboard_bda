@@ -7,15 +7,15 @@ def create_admin():
     app = create_app()
 
     with app.app_context():
-        username = "admin"
-        password = "1234"  # Troque por uma senha segura
-        level = 1
+        username = "user"
+        password = "123"  # Troque por uma senha segura
+        level = 0
 
         user = User.query.filter_by(username=username).first()
         # Verifica se o usuário já existe
         if user:
-            hashed_password = generate_password_hash(password)
-            user.password = hashed_password
+            print("find")
+            user.password = password
             user.level = level
             db.session.merge(user)
             db.session.commit()
@@ -23,8 +23,8 @@ def create_admin():
             return
         else:
             # Cria o usuário
-            hashed_password = generate_password_hash(password)
-            admin_user = User(username=username, password=hashed_password)
+            admin_user = User(username=username, password=password, level=level)
+            print("Not find: ",admin_user)
 
             db.session.add(admin_user)
             db.session.commit()

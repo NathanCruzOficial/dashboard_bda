@@ -13,7 +13,7 @@ class User(UserMixin,db.Model):
     level = db.Column(db.Integer, nullable=False)
 
     def __init__(self,username, password="1234", level=0): #Construtor
-        self.usename = username
+        self.username = username
         self.password = generate_password_hash(password)
         self.level = level
 

@@ -1,5 +1,5 @@
 # app/routes/middlewares.py
-from flask import redirect, url_for
+from flask import redirect, render_template, url_for, current_app, request
 from flask_login import current_user
 from functools import wraps
 
@@ -31,3 +31,17 @@ def required_level(level_required):
         return wrapper
     return decorator
 
+
+def middleware_geral(app):
+    @app.before_request
+    def interception():
+        rotas_liberadas = ['auth.login','auth.logout ']
+        print(request.endpoint)
+        if request.endpoint in rotas_liberadas:
+            return
+
+        if current_app.config['MANUTENCAO']:
+            if current_user.level <= 0:
+                return render_template("erros/503.html"), 503
+            else:
+                return
