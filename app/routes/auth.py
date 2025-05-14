@@ -17,7 +17,7 @@ def login():
         # Verifique se o usuário existe e se a senha está correta
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
-            login_user(user)  # Faz o login do usuário
+            login_user(user, remember=form.remember_me.data)  # Faz o login do usuário
             print('Login bem-sucedido!', 'success')
             return redirect(url_for('home.home'))  # Redireciona para a página inicial
         else:

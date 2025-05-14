@@ -35,7 +35,7 @@ def required_level(level_required):
 def middleware_geral(app):
     @app.before_request
     def interception():
-        rotas_liberadas = ['auth.login','auth.logout ']
+        rotas_liberadas = ['auth.login','auth.logout']
         print(request.endpoint)
         if request.endpoint in rotas_liberadas:
             return

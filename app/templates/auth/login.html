@@ -1,15 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head><title>Login</title></head>
-<body>
-  <h2>Login</h2>
-  <form method="POST">
-  {{ form.csrf_token }}
+{% extends 'layouts/base.html' %}
 
-    {{ form.username(_name="username", id="username", placeholder="username") }}<br>
-    {{ form.password(_name="password", id="password", placeholder="password") }}<br>
+{% block title %}Login - Sistema de Férias{% endblock %}
 
-    <button type="submit">Entrar</button>
-  </form>
-</body>
-</html>
+{% block content %}
+<style>
+.bg-custom {
+    background-image: url('https://4kwallpapers.com/images/wallpapers/illuminated-luxury-white-background-3d-background-sci-fi-1920x1080-7652.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+}
+</style>
+
+<div class="flex-grow-1 px-5 py-3 align-content-center bg-custom">
+<div class="col-xl-4 col-lg-5 col-md-6 col-sm-8 col-12 m-auto p-2 align-content-center my-2 bg-white rounded-3 shadow px-3 pt-3">
+
+    <!-- formulário -->
+    <form action="{{ url_for('auth.login') }}" method="post">
+      {{ form.csrf_token }}
+
+      <h1 class="h1 fw-bold">DashBda</h1>
+      <p class="mb-3" > Sistema de Cadastro de Férias do Exército</p>
+
+      <!-- username -->
+      <div class="form-floating mb-1">
+        {{ form.username(class="form-control", _name="username", id="username", placeholder="username") }}
+        <label for="username">Usuário</label>
+      </div>
+
+      <!-- password -->
+      <div class="form-floating">
+        {{ form.password(class="form-control", _name="password", id="password", placeholder="password") }}
+        <label for="password">Senha</label>
+      </div>
+
+      <!-- remember-me -->
+      <div class="form-check mb-3 mt-4 justify-content-between hstack">
+        <div>
+        {{ form.remember_me(class="form-check-input",id="flexCheckDefault", type="checkbox") }}
+        <label class="form-check-label" for="flexCheckDefault">Lembre-se de mim</label>
+        </div>
+
+        <a href="#" class=" btn btn-sm btn-outline-secondary ">Esqueceu sua senha? </a>
+      </div>
+
+      <!-- submit -->
+      <div class="d-flex justify-content-center mb-4">
+        <button type="submit" class="btn btn-primary btn-lg w-md-50 w-75 mt-3">Entrar</button>
+      </div>
+        
+    </form>
+
+</div>
+</div>
+{% endblock %}
+
